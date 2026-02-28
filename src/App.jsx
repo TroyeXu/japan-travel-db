@@ -4,6 +4,18 @@ import { DATA } from "../data";
 const CATEGORIES = ["全部", "景點", "餐廳", "市場", "購物", "體驗"];
 const AREAS = ["全部", "大阪", "京都", "神戶", "宇治", "奈良"];
 
+const TAG_GROUPS = [
+  { label: "推薦", tags: ["必去", "必吃", "排隊名店"] },
+  { label: "美食", tags: ["燒肉", "和牛", "壽司", "拉麵", "章魚燒", "串炸", "大阪燒", "炸牛排", "神戶牛", "鐵板燒", "Omakase", "蛋包飯", "烏龍麵", "餃子", "豆腐", "麻糬", "居酒屋", "街頭小吃", "吃到飽", "素食友善"] },
+  { label: "甜點飲品", tags: ["抹茶", "甜點", "起司蛋糕", "起司塔", "清酒", "試飲"] },
+  { label: "文化古蹟", tags: ["世界遺產", "歷史", "歷史建築", "城堡", "寺廟", "神社", "佛寺", "佛塔", "國寶", "千本鳥居", "大佛", "枯山水", "紅磚水道橋", "庭園"] },
+  { label: "自然風景", tags: ["自然", "竹林", "紅葉", "櫻花", "楓葉", "梅花", "花園", "公園", "森林", "溪谷", "瀑布", "山景", "溫泉"] },
+  { label: "景觀拍照", tags: ["夜景", "展望台", "展望", "觀景台", "地標", "拍照", "IG打卡", "夜間點燈"] },
+  { label: "體驗活動", tags: ["和服", "和服體驗", "舞妓", "茶道", "頭皮Spa", "Spa", "放鬆", "表演", "遊船", "忍者", "Cosplay", "纜車"] },
+  { label: "購物逛街", tags: ["購物", "購物中心", "商店街", "老街", "美食街", "市場", "市集", "百貨", "Outlet", "免稅", "美妝", "伴手禮", "古著"] },
+  { label: "親子娛樂", tags: ["親子", "水族館", "動物園", "主題樂園", "小鹿", "鹿", "博物館", "美術館", "動漫", "電玩", "摩天輪"] },
+];
+
 const catIcon = (cat) => ({ "景點": "⛩️", "餐廳": "🍜", "市場": "🏮", "購物": "🛍️", "體驗": "🎭" })[cat] || "📍";
 
 const areaStyle = (area) => ({
@@ -23,11 +35,22 @@ export default function App() {
   const [sortDir, setSortDir] = useState("desc");
   const [expandedIdx, setExpandedIdx] = useState(null);
 
-  const allTags = useMemo(() => {
+  const availableTags = useMemo(() => {
     const s = new Set();
     DATA.forEach(d => d.tags.forEach(t => s.add(t)));
-    return ["全部", ...Array.from(s).sort()];
+    return s;
   }, []);
+
+  const groupedTags = useMemo(() => {
+    const grouped = TAG_GROUPS.map(g => ({
+      label: g.label,
+      tags: g.tags.filter(t => availableTags.has(t)),
+    })).filter(g => g.tags.length > 0);
+    const assigned = new Set(TAG_GROUPS.flatMap(g => g.tags));
+    const others = [...availableTags].filter(t => !assigned.has(t)).sort();
+    if (others.length > 0) grouped.push({ label: "其他", tags: others });
+    return grouped;
+  }, [availableTags]);
 
   const filtered = useMemo(() => {
     let result = DATA;
@@ -113,7 +136,12 @@ export default function App() {
           <div className="h-5 w-px bg-shu/15 mx-1 hidden sm:block" />
           <select value={tagFilter} onChange={e => setTagFilter(e.target.value)}
             className="text-xs border border-shu/15 rounded-lg px-2.5 py-1.5 bg-white text-sumi-light focus:outline-none focus:ring-1 focus:ring-shu/30">
-            {allTags.map(t => <option key={t} value={t === "全部" ? "" : t}>{t === "全部" ? "🏷️ 標籤篩選" : `# ${t}`}</option>)}
+            <option value="">🏷️ 標籤篩選</option>
+            {groupedTags.map(g => (
+              <optgroup key={g.label} label={g.label}>
+                {g.tags.map(t => <option key={t} value={t}>{t}</option>)}
+              </optgroup>
+            ))}
           </select>
           <select value={`${sortKey}-${sortDir}`} onChange={e => { const [k, d] = e.target.value.split("-"); setSortKey(k); setSortDir(d); }}
             className="text-xs border border-shu/15 rounded-lg px-2.5 py-1.5 bg-white text-sumi-light focus:outline-none focus:ring-1 focus:ring-shu/30">
