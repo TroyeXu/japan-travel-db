@@ -237,7 +237,7 @@ export default function App() {
       </div>
 
       {/* Desktop Table */}
-      <div className="hidden md:block overflow-x-auto">
+      <div className="hidden md:block" style={{overflowX: "clip"}}>
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="bg-sumi text-white/80 sticky top-[117px] z-10">
