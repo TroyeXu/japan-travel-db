@@ -31,7 +31,7 @@ export default function App() {
   const [areaFilter, setAreaFilter] = useState("全部");
   const [search, setSearch] = useState("");
   const [tagFilter, setTagFilter] = useState("");
-  const [sortKey, setSortKey] = useState("rating");
+  const [sortKey, setSortKey] = useState("reviews");
   const [sortDir, setSortDir] = useState("desc");
   const [expandedIdx, setExpandedIdx] = useState(null);
 
