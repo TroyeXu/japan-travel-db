@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+@theme {
+  --color-shu: #B91C1C;
+  --color-shu-dark: #991B1B;
+  --color-shu-light: #FEE2E2;
+  --color-kin: #D97706;
+  --color-kin-light: #FEF3C7;
+  --color-sumi: #1C1917;
+  --color-sumi-light: #44403C;
+  --color-washi: #FAF7F2;
+  --color-washi-dark: #F0EBE3;
+  --color-matcha: #65753F;
+  --color-matcha-light: #ECFCCB;
+  --color-fuji: #6D28D9;
+  --color-fuji-light: #EDE9FE;
+  --color-sora: #1D4ED8;
+  --color-sora-light: #DBEAFE;
+  --color-kohaku: #B45309;
+  --color-kohaku-light: #FEF3C7;
+}
+
+body {
+  background-color: #FAF7F2;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
+}
+
+.wave-divider {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 30'%3E%3Cpath d='M0 15 Q 150 0 300 15 Q 450 30 600 15 Q 750 0 900 15 Q 1050 30 1200 15 V30 H0Z' fill='%23FAF7F2'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  height: 20px;
+  margin-top: -1px;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F0EBE3; }
+::-webkit-scrollbar-thumb { background: #B91C1C; border-radius: 3px; }
