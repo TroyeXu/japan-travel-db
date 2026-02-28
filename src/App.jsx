@@ -115,6 +115,15 @@ export default function App() {
             className="text-xs border border-shu/15 rounded-lg px-2.5 py-1.5 bg-white text-sumi-light focus:outline-none focus:ring-1 focus:ring-shu/30">
             {allTags.map(t => <option key={t} value={t === "全部" ? "" : t}>{t === "全部" ? "🏷️ 標籤篩選" : `# ${t}`}</option>)}
           </select>
+          <select value={`${sortKey}-${sortDir}`} onChange={e => { const [k, d] = e.target.value.split("-"); setSortKey(k); setSortDir(d); }}
+            className="text-xs border border-shu/15 rounded-lg px-2.5 py-1.5 bg-white text-sumi-light focus:outline-none focus:ring-1 focus:ring-shu/30">
+            <option value="rating-desc">⭐ 評分高→低</option>
+            <option value="rating-asc">⭐ 評分低→高</option>
+            <option value="reviews-desc">💬 評論多→少</option>
+            <option value="reviews-asc">💬 評論少→多</option>
+            <option value="name-asc">🔤 名稱 A→Z</option>
+            <option value="name-desc">🔤 名稱 Z→A</option>
+          </select>
         </div>
       </div>
 
